@@ -16,7 +16,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-@WebServlet(name = "proxy", urlPatterns = {"/proxy/*"})
+// @WebServlet(name = "proxy", urlPatterns = {"/proxy/*"})
 public class ProxyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

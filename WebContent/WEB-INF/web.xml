@@ -6,7 +6,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ConnectivityServlet</servlet-name>
-    <url-pattern>/</url-pattern>
+    <url-pattern>/api</url-pattern>
   </servlet-mapping>
   <resource-ref>
     <res-ref-name>connectivityConfiguration</res-ref-name>
@@ -20,6 +20,10 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ProxyServlet</servlet-name>
-    <url-pattern>/ProxyServlet</url-pattern>
+    <url-pattern>/proxy/*</url-pattern>
   </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  
 </web-app>
