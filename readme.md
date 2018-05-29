@@ -6,6 +6,8 @@ See Jerry's blog:
 
 test via url: https://demoi042416trial.hanatrial.ondemand.com/connectivity/api?userinput=a
 
+No CloudFoundry environment is touched!
+
 #########################################################
 # Welcome to the SAP Cloud Platform Connectivity Sample #
 #########################################################
