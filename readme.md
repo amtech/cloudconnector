@@ -1,3 +1,8 @@
+github url: https://github.com/i042416/cloudconnector
+
+(https://blogs.sap.com/2018/05/16/use-sap-cloud-connector-sap-cloud-platform-java-to-consume-function-in-abap-on-premise-system/)
+
+
 #########################################################
 # Welcome to the SAP Cloud Platform Connectivity Sample #
 #########################################################
