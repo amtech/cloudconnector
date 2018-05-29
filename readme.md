@@ -4,6 +4,7 @@ See Jerry's blog:
 
 [Use SAP Cloud Connector + SAP Cloud Platform + Java to consume function in ABAP On-Premise system](https://blogs.sap.com/2018/05/16/use-sap-cloud-connector-sap-cloud-platform-java-to-consume-function-in-abap-on-premise-system/)
 
+test via url: https://demoi042416trial.hanatrial.ondemand.com/connectivity/api?userinput=a
 
 #########################################################
 # Welcome to the SAP Cloud Platform Connectivity Sample #
