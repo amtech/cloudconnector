@@ -1,5 +1,7 @@
 github url: https://github.com/i042416/cloudconnector
 
+local path: C:\Users\i042416\scp20180425\connectivity
+
 See Jerry's blog:
 
 [Use SAP Cloud Connector + SAP Cloud Platform + Java to consume function in ABAP On-Premise system](https://blogs.sap.com/2018/05/16/use-sap-cloud-connector-sap-cloud-platform-java-to-consume-function-in-abap-on-premise-system/)
