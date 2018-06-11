@@ -40,9 +40,12 @@ public class ConnectivityServlet extends HttpServlet {
     		stfcConnection.execute(destination);
         
     		JCoParameterList exports = stfcConnection.getExportParameterList();
-    		int result = exports.getInt("RV_RESULT");
+    		
+    		int result = exports.getInt("EV_RESULT");
+    		int abapDuration = exports.getInt("EV_DURATION");
     		response.addHeader("Content-type", "application/json");
-    		String resultString = "{ \"result\": " + result + "}";
+    		String resultString = "{ \"result\": " + result + 
+    				", \"abapLayerDuration\": " + abapDuration + "}";
     		responseWriter.println(resultString);
     	}
 
@@ -51,10 +54,10 @@ public class ConnectivityServlet extends HttpServlet {
         //in its signature, this exception cannot occur. However,you should always
         //take care of AbapExceptions
     	}
-    	catch (JCoException e){
+    	catch (Exception e){
     		response.addHeader("Content-type", "text/html");
     		responseWriter.println("<html><body>");
-    		responseWriter.println("<h1>Exception occurred while executing STFC_CONNECTION in system JCoDemoSystem</h1>");
+    		responseWriter.println("<h1>Exception occurred in Servlet Post method</h1>");
     		responseWriter.println("<pre>");
     		e.printStackTrace(responseWriter);
     		responseWriter.println("</pre>");
