@@ -20,11 +20,71 @@ public class ConnectivityServlet extends HttpServlet {
     public ConnectivityServlet() {
     }
 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    	PrintWriter responseWriter = response.getWriter();
+    	try {
+    		JCoDestination destination = JCoDestinationManager.getDestination("my-backend-system-destination");
+
+    		JCoRepository repo = destination.getRepository();
+    		JCoFunction stfcConnection = repo.getFunction("ZDIS_EQUIPMENT_REGISTER");
+
+    		JCoParameterList imports = stfcConnection.getImportParameterList();
+        
+    		String serialNumber = request.getHeader("serial_number");
+    		String wechatOpenID = request.getHeader("wechat_openid");
+
+    		imports.setValue("IV_SERIAL_NUMBER", serialNumber);
+    		imports.setValue("IV_OPEN_ID", wechatOpenID);
+
+    		stfcConnection.execute(destination);
+        
+    		JCoParameterList exports = stfcConnection.getExportParameterList();
+    		int result = exports.getInt("RV_RESULT");
+    		response.addHeader("Content-type", "application/json");
+    		String resultString = "{ \"result\": " + result + "}";
+    		responseWriter.println(resultString);
+    	}
+
+    	catch (AbapException ae){
+        //just for completeness: As this function module does not have an exception
+        //in its signature, this exception cannot occur. However,you should always
+        //take care of AbapExceptions
+    	}
+    	catch (JCoException e){
+    		response.addHeader("Content-type", "text/html");
+    		responseWriter.println("<html><body>");
+    		responseWriter.println("<h1>Exception occurred while executing STFC_CONNECTION in system JCoDemoSystem</h1>");
+    		responseWriter.println("<pre>");
+    		e.printStackTrace(responseWriter);
+    		responseWriter.println("</pre>");
+    		responseWriter.println("</body></html>");
+    	}
+    }
+    
+    private void generateDummyResponse(HttpServletResponse response) {
+    	PrintWriter responseWriter;
+		try {
+			responseWriter = response.getWriter();
+			response.addHeader("Content-type", "text/html");
+	        responseWriter.println("<html><body>");
+	        responseWriter.println("<h1>Jerry dummy response</h1>");
+	        responseWriter.println("</body></html>");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         PrintWriter responseWriter = response.getWriter();
         try
         {
+        	if( 1 == 1) {
+        		generateDummyResponse(response);
+        		return;
+        	}
             JCoDestination destination = JCoDestinationManager.getDestination("my-backend-system-destination");
 
             JCoRepository repo = destination.getRepository();

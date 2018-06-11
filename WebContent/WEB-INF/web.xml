@@ -6,7 +6,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ConnectivityServlet</servlet-name>
-    <url-pattern>/api</url-pattern>
+    <url-pattern>/prodRegister</url-pattern>
   </servlet-mapping>
   <resource-ref>
     <res-ref-name>connectivityConfiguration</res-ref-name>
