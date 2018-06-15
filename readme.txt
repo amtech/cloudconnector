@@ -1,15 +1,3 @@
-github url: https://github.com/i042416/cloudconnector
-
-local path: C:\Users\i042416\scp20180425\connectivity
-
-See Jerry's blog:
-
-[Use SAP Cloud Connector + SAP Cloud Platform + Java to consume function in ABAP On-Premise system](https://blogs.sap.com/2018/05/16/use-sap-cloud-connector-sap-cloud-platform-java-to-consume-function-in-abap-on-premise-system/)
-
-test via url: https://demoi042416trial.hanatrial.ondemand.com/connectivity/api?userinput=a
-
-No CloudFoundry environment is touched!
-
 #########################################################
 # Welcome to the SAP Cloud Platform Connectivity Sample #
 #########################################################
@@ -63,5 +51,3 @@ For more information, see https://help.sap.com/viewer/65de2977205c403bbc107264b8
 In order to use on-premise backend services in a cloud application, the SAP Cloud Connector should be set up and configured.
 
 For more information, see https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/e6c7616abb5710148cfcf3e75d96d596.html
-
-7:01PM - 怪了，为什么SDK下载的maven project一下子就build过了？
