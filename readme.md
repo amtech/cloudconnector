@@ -64,4 +64,9 @@ In order to use on-premise backend services in a cloud application, the SAP Clou
 
 For more information, see https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/e6c7616abb5710148cfcf3e75d96d596.html
 
-7:01PM - 怪了，为什么SDK下载的maven project一下子就build过了？
+7:01PM - 锟斤拷锟剿ｏ拷为什么SDK锟斤拷锟截碉拷maven project一锟斤拷锟接撅拷build锟斤拷锟剿ｏ拷
+
+# 2018-06-17 
+
+1:04PM default: <Connector connectionTimeout="20000" port="9098"
+no https allowed.
