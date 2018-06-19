@@ -78,3 +78,5 @@ no https allowed.
 11:51AM Regions and Hosts Available for the Neo Environment
 
 https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/350356d1dc314d3199dca15bd2ab9b0e.html#loio350356d1dc314d3199dca15bd2ab9b0e
+
+2:11PM - int.sap.hana.ondemand.com
