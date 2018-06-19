@@ -70,3 +70,7 @@ For more information, see https://help.sap.com/viewer/65de2977205c403bbc107264b8
 
 1:04PM default: <Connector connectionTimeout="20000" port="9098"
 no https allowed.
+
+# 2018-06-19
+
+11:40AM I have performed maven build and try to deploy .war to SAP internal SCP neo environment.
