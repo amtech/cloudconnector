@@ -10,11 +10,17 @@ import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoParameterList;
 import com.sap.conn.jco.JCoRepository;
+import com.sap.conn.jco.JCoTable;
 
 public class XCDService {
+	static private final String ABAP_DURATION = "abapLayerDuration";
+	static private final String UPSELL_PRODUCT = "upsellProducts";
+	static private final String PRODUCT_ID = "productID";
+	static private final String PRODUCT_TEXT = "productText";
 	
 	public static void generateDummyResponse(HttpServletResponse response) {
     	PrintWriter responseWriter;
+
 		try {
 			responseWriter = response.getWriter();
 			response.addHeader("Content-type", "text/html");
@@ -96,9 +102,32 @@ public class XCDService {
     		// int result = exports.getInt("EV_RESULT");
     	    int abapDuration = exports.getInt("EV_DURATION");
     	    
-    		response.addHeader("Content-type", "application/json");
-    		String resultString = "{ \"abapLayerDuration\": " + abapDuration + "}";
-    		responseWriter.println(resultString);
+    	    StringBuilder sb = new StringBuilder();
+    	    sb.append("{ \"" + ABAP_DURATION + "\": " + abapDuration + ",");
+    	    
+    	    sb.append("\"" + UPSELL_PRODUCT + "\":[");
+    	    
+    	    JCoTable codes = exports.getTable("ET_MATERIALS");
+    	    
+    	    int row = codes.getNumRows();
+  
+    	    for( int i = 0; i < row; i++){
+    	    	codes.setRow(i);
+                System.out.println(codes.getString("MATERIAL_ID") + '\t' + codes.getString("MATERIAL_TEXT"));
+                sb.append("{\"" + PRODUCT_ID + "\":" + codes.getString("MATERIAL_ID") + ","
+                		+ "\"" + PRODUCT_TEXT + "\":\"" + codes.getString("MATERIAL_TEXT") + "\"");
+                if( i < row - 1){
+                	sb.append("},");
+                }
+                else{
+                	sb.append("}");
+                }
+    	    }
+    	    sb.append("]}");
+    	    
+    	    System.out.println("Final json: " + sb.toString());
+    	    
+    		responseWriter.println(sb.toString());
     	}
 
     	catch (AbapException ae){
