@@ -80,3 +80,20 @@ no https allowed.
 https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/350356d1dc314d3199dca15bd2ab9b0e.html#loio350356d1dc314d3199dca15bd2ab9b0e
 
 2:11PM - int.sap.hana.ondemand.com
+
+2018-06-19 14:13:39,063 INFO  [main] com.sap.jpaas.infrastructure.console.ConsoleLogger: Arguments:   --account wc4e460ce --user jerry.wang@sap.com --host int.sap.hana.ondemand.com --amount lite:1
+2018-06-19 14:13:40,191 INFO  [main] com.sap.jpaas.infrastructure.console.ConsoleLogger: Starting execution of command [set-quota]
+2018-06-19 14:13:40,415 INFO  [main] com.sap.jpaas.infrastructure.console.ConsoleLogger: Version validity check is completed
+2018-06-19 14:13:40,415 INFO  [main] com.sap.jpaas.infrastructure.console.ConsoleLogger: Command [set-quota] init() finished for [224] ms
+2018-06-19 14:13:48,859 INFO  [main] com.sap.jpaas.infrastructure.console.ConsoleLogger: Command [set-quota] cleanup() finished for [0] ms
+2018-06-19 14:13:48,859 FATAL [main] com.sap.jpaas.infrastructure.console.ConsoleLogger: (!) ERROR: Missing message for status code:500
+com.sap.jpaas.infrastructure.console.exception.BackendException: Missing message for status code:500
+	at com.sap.cloud.commercial.account.ops.commands.AccountOperationsWithHeaderProcessingCommand.handleErrorResponse(AccountOperationsWithHeaderProcessingCommand.java:36)
+	at com.sap.cloud.commercial.account.ops.commands.SetQuotaCommand.setQuota(SetQuotaCommand.java:93)
+	at com.sap.cloud.commercial.account.ops.commands.SetQuotaCommand.executeCommand(SetQuotaCommand.java:59)
+	at com.sap.cloud.commercial.account.ops.commands.AccountOperationsAbstractCommand.run(AccountOperationsAbstractCommand.java:153)
+	at com.sap.jpaas.infrastructure.console.CommandManager.run(CommandManager.java:185)
+	at com.sap.jpaas.infrastructure.console.CommandManager.run(CommandManager.java:146)
+	at com.sap.jpaas.infrastructure.console.ConsoleClient.executeCommand(ConsoleClient.java:242)
+	at com.sap.jpaas.infrastructure.console.ConsoleClient.run(ConsoleClient.java:184)
+	at com.sap.jpaas.infrastructure.console.ConsoleClient.main(ConsoleClient.java:80)
