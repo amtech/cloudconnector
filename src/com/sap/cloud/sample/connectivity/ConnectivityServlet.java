@@ -35,7 +35,7 @@ public class ConnectivityServlet extends HttpServlet {
     		XCDService.getUpsellProduct(request, response);
     	}
     	else if( uri.contains(PRODUCT_IMAGES)) {
-    		XCDService.getUpsellProduct(request, response);
+    		XCDService.getProductImages(request, response);
     	}
     }
 

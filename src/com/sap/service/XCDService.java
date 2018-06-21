@@ -15,8 +15,15 @@ import com.sap.conn.jco.JCoTable;
 public class XCDService {
 	static private final String ABAP_DURATION = "abapLayerDuration";
 	static private final String UPSELL_PRODUCT = "upsellProducts";
+	static private final String PRODUCT_IMAGES = "ProductImages";
 	static private final String PRODUCT_ID = "productID";
 	static private final String PRODUCT_TEXT = "productText";
+	
+	static private final String FILE_ID = "fileID";
+	static private final String FILE_OWNER = "fileOwner";
+	static private final String FILE_CDATE = "fileCreationDate";
+	static private final String FILE_NAME = "fileName";
+	static private final String FILE_CONTENT = "fileContent";
 	
 	public static void generateDummyResponse(HttpServletResponse response) {
     	PrintWriter responseWriter;
@@ -55,6 +62,37 @@ public class XCDService {
     		response.addHeader("Content-type", "application/json");
     		String resultString = "{ \"abapLayerDuration\": " + abapDuration + "}";
     		responseWriter.println(resultString);
+    	    
+    	    StringBuilder sb = new StringBuilder();
+    	    sb.append("{ \"" + ABAP_DURATION + "\": " + abapDuration + ",");
+    	    
+    	    sb.append("\"" + PRODUCT_IMAGES + "\":[");
+    	    
+    	    JCoTable codes = exports.getTable("ET_IMAGES");
+    	    
+    	    int row = codes.getNumRows();
+    	    System.out.println("Total rows: " + row);
+    	    
+    	    System.out.println("ABAP duration: " + abapDuration);
+    	    
+    	    for( int i = 0; i < row; i++){
+    	    	codes.setRow(i);
+                sb.append("{\"" + FILE_ID + "\":" + codes.getString("FILEID") + ","
+                		+ "\"" + FILE_OWNER + "\":\"" + codes.getString("OWNER") + "\"" + ",");
+                sb.append("{\"" + FILE_CDATE + "\":" + codes.getString("CREATION_DATE") + ","
+                		+ "\"" + FILE_NAME + "\":\"" + codes.getString("FILENAME") + "\""); 
+                
+                storeLocalFile(codes);
+                if( i < row - 1){
+                	sb.append("},");
+                }
+                else{
+                	sb.append("}");
+                }
+    	    }
+    	    sb.append("]}");
+    	    
+    		responseWriter.println(sb.toString());
     	}
 
     	catch (AbapException ae){
@@ -140,7 +178,6 @@ public class XCDService {
         
     		JCoParameterList exports = stfcConnection.getExportParameterList();
     		
-    		// int result = exports.getInt("EV_RESULT");
     	    int abapDuration = exports.getInt("EV_DURATION");
     	    
     	    StringBuilder sb = new StringBuilder();
