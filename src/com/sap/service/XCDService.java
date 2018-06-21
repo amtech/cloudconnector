@@ -32,6 +32,47 @@ public class XCDService {
 		}
     }
 	
+	static public void getProductImages(HttpServletRequest request, HttpServletResponse response) {
+		PrintWriter responseWriter = null;
+		try {
+    		responseWriter = response.getWriter();
+    		JCoDestination destination = JCoDestinationManager.getDestination("my-backend-system-destination");
+
+    		JCoRepository repo = destination.getRepository();
+    		JCoFunction stfcConnection = repo.getFunction("ZDIS_GET_MATERIAL_IMAGES");
+
+    		JCoParameterList imports = stfcConnection.getImportParameterList();
+        
+    		String productID = request.getHeader("productID");
+
+    		imports.setValue("IV_MATERIAL_ID", productID);
+
+    		stfcConnection.execute(destination);
+        
+    		JCoParameterList exports = stfcConnection.getExportParameterList();
+    		
+    		int abapDuration = exports.getInt("EV_DURATION");
+    		response.addHeader("Content-type", "application/json");
+    		String resultString = "{ \"abapLayerDuration\": " + abapDuration + "}";
+    		responseWriter.println(resultString);
+    	}
+
+    	catch (AbapException ae){
+        //just for completeness: As this function module does not have an exception
+        //in its signature, this exception cannot occur. However,you should always
+        //take care of AbapExceptions
+    	}
+    	catch (Exception e){
+    		response.addHeader("Content-type", "text/html");
+    		responseWriter.println("<html><body>");
+    		responseWriter.println("<h1>Exception occurred in RegisterProduct method</h1>");
+    		responseWriter.println("<pre>");
+    		e.printStackTrace(responseWriter);
+    		responseWriter.println("</pre>");
+    		responseWriter.println("</body></html>");
+    	}
+    }
+	
 	static public void registerProduct(HttpServletRequest request, HttpServletResponse response) {
 		PrintWriter responseWriter = null;
 		try {

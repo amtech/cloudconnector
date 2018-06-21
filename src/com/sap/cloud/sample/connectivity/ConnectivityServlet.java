@@ -19,6 +19,7 @@ public class ConnectivityServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String REGISTER_PRODUCT = "prodRegister";
     private static final String UPSELL_PRODUCT = "upsellMaterial";
+    private static final String PRODUCT_IMAGES = "prodImagesGet";
 
     public ConnectivityServlet() {
     }
@@ -31,6 +32,9 @@ public class ConnectivityServlet extends HttpServlet {
     		XCDService.registerProduct(request, response);
     	}
     	else if( uri.contains(UPSELL_PRODUCT)) {
+    		XCDService.getUpsellProduct(request, response);
+    	}
+    	else if( uri.contains(PRODUCT_IMAGES)) {
     		XCDService.getUpsellProduct(request, response);
     	}
     }
