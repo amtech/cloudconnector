@@ -177,10 +177,10 @@ public class XCDService {
 
     		JCoParameterList imports = stfcConnection.getImportParameterList();
         
-    		String customerID = request.getHeader("customer_id");
+    		String customerID = request.getHeader("open_id");
     		String materialID = request.getHeader("material_id");
 
-    		imports.setValue("IV_CUSTOMER_ID", customerID);
+    		imports.setValue("IV_OPEN_ID", customerID);
     		imports.setValue("IV_MATERIAL_ID", materialID);
 
     		stfcConnection.execute(destination);
