@@ -1,7 +1,10 @@
 package com.sap.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Base64;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.sap.conn.jco.AbapException;
@@ -39,6 +42,22 @@ public class XCDService {
 		}
     }
 	
+	static private String getFileContent(JCoTable codes) {
+		InputStream is = codes.getBinaryStream("FILECONTENT");
+		String result = "";
+    	try {
+
+    		byte[] bytes = new byte[is.available()];
+    		is.read(bytes);
+    		
+    		result = Base64.getEncoder().encodeToString(bytes);
+    		is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return result;
+	}
+	
 	static public void getProductImages(HttpServletRequest request, HttpServletResponse response) {
 		PrintWriter responseWriter = null;
 		try {
@@ -60,8 +79,6 @@ public class XCDService {
     		
     		int abapDuration = exports.getInt("EV_DURATION");
     		response.addHeader("Content-type", "application/json");
-    		String resultString = "{ \"abapLayerDuration\": " + abapDuration + "}";
-    		responseWriter.println(resultString);
     	    
     	    StringBuilder sb = new StringBuilder();
     	    sb.append("{ \"" + ABAP_DURATION + "\": " + abapDuration + ",");
@@ -71,18 +88,15 @@ public class XCDService {
     	    JCoTable codes = exports.getTable("ET_IMAGES");
     	    
     	    int row = codes.getNumRows();
-    	    System.out.println("Total rows: " + row);
-    	    
-    	    System.out.println("ABAP duration: " + abapDuration);
     	    
     	    for( int i = 0; i < row; i++){
     	    	codes.setRow(i);
-                sb.append("{\"" + FILE_ID + "\":" + codes.getString("FILEID") + ","
-                		+ "\"" + FILE_OWNER + "\":\"" + codes.getString("OWNER") + "\"" + ",");
-                sb.append("{\"" + FILE_CDATE + "\":" + codes.getString("CREATION_DATE") + ","
-                		+ "\"" + FILE_NAME + "\":\"" + codes.getString("FILENAME") + "\""); 
+                sb.append("{\"" + FILE_ID   + "\":\"" + codes.getString("FILEID") + "\"" + ","
+                		+ "\"" + FILE_OWNER + "\":\"" + codes.getString("OWNER")  + "\"" + ",");
+                sb.append("\"" + FILE_CDATE + "\":\"" + codes.getString("CREATION_DATE") + "\"" + ","
+                		+ "\"" + FILE_NAME    + "\":\"" + codes.getString("FILENAME") + "\"" + "," 
+                		+ "\"" + FILE_CONTENT + "\":\"" + getFileContent(codes) + "\""); 
                 
-                storeLocalFile(codes);
                 if( i < row - 1){
                 	sb.append("},");
                 }
@@ -96,20 +110,21 @@ public class XCDService {
     	}
 
     	catch (AbapException ae){
-        //just for completeness: As this function module does not have an exception
-        //in its signature, this exception cannot occur. However,you should always
-        //take care of AbapExceptions
     	}
     	catch (Exception e){
-    		response.addHeader("Content-type", "text/html");
-    		responseWriter.println("<html><body>");
-    		responseWriter.println("<h1>Exception occurred in RegisterProduct method</h1>");
-    		responseWriter.println("<pre>");
-    		e.printStackTrace(responseWriter);
-    		responseWriter.println("</pre>");
-    		responseWriter.println("</body></html>");
+    		printJCOError(e, responseWriter, response, "getProductImages");
     	}
     }
+	
+	static private void printJCOError(Exception e, PrintWriter responseWriter, HttpServletResponse response, String methodName ) {
+		response.addHeader("Content-type", "text/html");
+		responseWriter.println("<html><body>");
+		responseWriter.println("<h1>Exception occurred in method: " + methodName + "</h1>");
+		responseWriter.println("<pre>");
+		e.printStackTrace(responseWriter);
+		responseWriter.println("</pre>");
+		responseWriter.println("</body></html>");
+	}
 	
 	static public void registerProduct(HttpServletRequest request, HttpServletResponse response) {
 		PrintWriter responseWriter = null;
@@ -146,13 +161,7 @@ public class XCDService {
         //take care of AbapExceptions
     	}
     	catch (Exception e){
-    		response.addHeader("Content-type", "text/html");
-    		responseWriter.println("<html><body>");
-    		responseWriter.println("<h1>Exception occurred in RegisterProduct method</h1>");
-    		responseWriter.println("<pre>");
-    		e.printStackTrace(responseWriter);
-    		responseWriter.println("</pre>");
-    		responseWriter.println("</body></html>");
+    		printJCOError(e, responseWriter, response, "registerProduct");
     	}
     }
 
@@ -207,20 +216,10 @@ public class XCDService {
     	    
     		responseWriter.println(sb.toString());
     	}
-
     	catch (AbapException ae){
-        //just for completeness: As this function module does not have an exception
-        //in its signature, this exception cannot occur. However,you should always
-        //take care of AbapExceptions
     	}
     	catch (Exception e){
-    		response.addHeader("Content-type", "text/html");
-    		responseWriter.println("<html><body>");
-    		responseWriter.println("<h1>Exception occurred in Servlet Post method</h1>");
-    		responseWriter.println("<pre>");
-    		e.printStackTrace(responseWriter);
-    		responseWriter.println("</pre>");
-    		responseWriter.println("</body></html>");
+    		printJCOError(e, responseWriter, response, "getUpsellProduct");
     	}
 	}
 }
