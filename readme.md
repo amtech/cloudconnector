@@ -97,3 +97,9 @@ com.sap.jpaas.infrastructure.console.exception.BackendException: Missing message
 	at com.sap.jpaas.infrastructure.console.ConsoleClient.executeCommand(ConsoleClient.java:242)
 	at com.sap.jpaas.infrastructure.console.ConsoleClient.run(ConsoleClient.java:184)
 	at com.sap.jpaas.infrastructure.console.ConsoleClient.main(ConsoleClient.java:80)
+
+# 2018-07-27
+
+Destination is defined based on org unit level.
+
+my-backend-system-destination: for XCD/111
