@@ -28,6 +28,9 @@ public class XCDService {
 	static private final String FILE_NAME = "fileName";
 	static private final String FILE_CONTENT = "fileContent";
 	
+	static private final String RESULT = "result";
+	static private final String MESSAGE = "message";
+	
 	public static void generateDummyResponse(HttpServletResponse response) {
     	PrintWriter responseWriter;
 
@@ -113,6 +116,46 @@ public class XCDService {
     	}
     	catch (Exception e){
     		printJCOError(e, responseWriter, response, "getProductImages");
+    	}
+    }
+	
+	static public void submitSurvey(HttpServletRequest request, HttpServletResponse response) {
+		PrintWriter responseWriter = null;
+		try {
+    		responseWriter = response.getWriter();
+    		JCoDestination destination = JCoDestinationManager.getDestination("my-backend-ag3");
+
+    		JCoRepository repo = destination.getRepository();
+    		JCoFunction stfcConnection = repo.getFunction("ZDIS_SUBMIT_QUESTION");
+
+    		JCoParameterList imports = stfcConnection.getImportParameterList();
+    		String answer = request.getHeader("answer");
+
+    		imports.setValue("IV_ANSWER_LIST", answer);
+
+    		stfcConnection.execute(destination);
+        
+    		JCoParameterList exports = stfcConnection.getExportParameterList();
+    		
+    		int abapDuration = exports.getInt("EV_DURATION");
+    		int result = exports.getInt("EV_RESULT");
+    		String message = exports.getString("EV_MESSAGE");
+    		response.addHeader("Content-type", "application/json");
+    	    
+    	    StringBuilder sb = new StringBuilder();
+    	    sb.append("{ \"" + ABAP_DURATION + "\": " + abapDuration + ",");
+    	    
+    	    sb.append("\"" + RESULT  + "\":\"" + result + "\",");
+    	    
+    	    sb.append("\"" + MESSAGE + "\":\"" + message + "\"}");
+    	    
+    		responseWriter.println(sb.toString());
+    	}
+
+    	catch (AbapException ae){
+    	}
+    	catch (Exception e){
+    		printJCOError(e, responseWriter, response, "submitSurvey");
     	}
     }
 	

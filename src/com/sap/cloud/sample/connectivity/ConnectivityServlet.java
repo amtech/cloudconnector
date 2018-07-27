@@ -20,6 +20,7 @@ public class ConnectivityServlet extends HttpServlet {
     private static final String REGISTER_PRODUCT = "prodRegister";
     private static final String UPSELL_PRODUCT = "upsellMaterial";
     private static final String PRODUCT_IMAGES = "prodImagesGet";
+    private static final String SURVEY = "survey";
 
     public ConnectivityServlet() {
     }
@@ -36,6 +37,9 @@ public class ConnectivityServlet extends HttpServlet {
     	}
     	else if( uri.contains(PRODUCT_IMAGES)) {
     		XCDService.getProductImages(request, response);
+    	}
+    	else if( uri.contains(SURVEY)) {
+    		XCDService.submitSurvey(request, response);
     	}
     }
 
